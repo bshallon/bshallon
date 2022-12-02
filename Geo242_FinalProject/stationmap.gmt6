@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#script to plot the stations used in the generation of the LAB depth values 
+
+#set file names 
+infile='rawstas.txt'
+outfile='stationmap.ps'
+faultxy='faults.xy'
+box='legendbox.xy'
+
+#set paper size 
+gmt set PS_MEDIA letter
+
+#establish basemap for plotting 
+gmt psbasemap -JM16c -R-125/-111.75/30.5/43.5 -Bxya5f1 -BWeSn -P -K > $outfile
+gmt pscoast -J -R -N1 -N2 -Wthin -Di -G76/138/106 -S181/223/246 -A100/0/04 -O -K >> $outfile 
+
+#plot Quaternary faults
+gmt psxy -R -J $faultxy -Wthinnest,gold -O -K >> $outfile
+
+$plot stations
+awk '{print $8,$7}' $infile | gmt psxy -J -R -Si0.075i -Gblack -O -K >> $outfile
+
+#legend
+gmt psxy $box -J -R -Gwhite -Wthin,black -A -L -O -K >> $outfile 
+echo -124 31.25 | gmt psxy -J -R -S-0.35i -Wthin,gold -O -K >> $outfile
+echo -122.35 31.25 "Quaternary Faults" | gmt pstext -J -R -F+f8,Helvetica-Bold -O -K >> $outfile 
+echo -124 31.5 | gmt psxy -J -R -Si0.075i -Gblack -O -K >> $outfile 
+echo -122.25 31.5 "Broadband Stations" | gmt pstext -J -R -F+f8,Helvetica-Bold -O -K >> $outfile 
+echo -124 31.8 "Legend" | gmt pstext -J -R -F+f10,Helvetica-Bold -O -K >> $outfile 
+
+echo showpage >> $outfile
+echo end >> $outfile 
