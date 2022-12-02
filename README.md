@@ -1,5 +1,5 @@
 - Hi, I’m @bshallon
-- 
+
 - I’m a PhD student doing reasearch in structural seismology, currently focused on understanding the Lithosphere-Asthenosphere System. 
 
 - How to reach me: bshal002@ucr.edu
